@@ -1,15 +1,17 @@
 # Gmail Notifier for Windows
 
-A simple Python application that runs in the background, checks for new Gmail messages, and shows desktop notifications with a tray icon.  
-This app is designed for Windows 10 and above.
+A simple Python application that runs in the background, checks for new Gmail messages, and shows desktop notifications with a tray icon.
+**Now includes click-to-open notifications using `win10toast-click`**—just click the notification to open the email in your browser!
 
 ---
 
 ## Features
 
 - **Desktop notifications** for new unread Gmail messages
+- **Click a notification to open the email thread in your browser**
 - **System tray icon** with Quit option
 - **Runs in the background/minimized**
+- **Notifies only for new emails received after the script starts**
 - **Automatically start at Windows startup (optional)**
 
 ---
@@ -31,7 +33,8 @@ python --version
 ### 2. Download the Script
 
 - Download or clone this repository to your PC.
-- Place the `tray_notifier.py` (or `tray_notifier.pyw`) script in a folder of your choice.
+- Place the `gmail_tray_notifier.py` (or `gmail_tray_notifier.pyw`) script in a folder of your choice.
+
 
 ---
 
@@ -44,7 +47,7 @@ python --version
 5. Click **Create Credentials > OAuth client ID**.
     - Set **Application type** to **Desktop app**.
     - Name it (e.g., "Gmail Notifier").
-6. Download the `credentials.json` file and place it in the same folder as the script.
+6. Download the `credentials.json` file and place it in the **same folder as the script**.
 
 ---
 
@@ -52,19 +55,16 @@ python --version
 
 Open Command Prompt in the script's folder and run:
 ```sh
-pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib win10toast pystray pillow
+pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib pystray pillow win10toast-click
 ```
 
 ---
 
 ### 5. Run the Script
 
-- **For testing:**  
-  Double-click `tray_notifier.py` (you may see a terminal window).
-
-- **For background/tray mode (no terminal window):**  
-  Rename the script to `tray_notifier.pyw` and double-click it.  
-  You will see the Gmail icon in your system tray.  
+- **For background/tray mode (no terminal window):**
+  Double-click `gmail_tray_notifier.pyw`.
+  You will see the Gmail icon in your system tray.
   Right-click the tray icon to quit the app.
 
 ---
@@ -72,30 +72,38 @@ pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-
 ### 6. (Optional) Start Automatically on Windows Login
 
 1. Press `Win + R`, type `shell:startup`, and press Enter.
-2. In the opened folder, create a shortcut to your `tray_notifier.pyw` script.
+2. In the opened folder, create a shortcut to your `gmail_tray_notifier.pyw` script.
 
 Now, the notifier will start automatically whenever you log in.
 
 ---
 
-## Notes
+## How It Works
 
 - **First Run:** The script will open a browser window for Google authentication. Sign in and allow access.
-- **Notifications:** Only new unread emails trigger a notification. Marking emails as read removes them from future notifications.
-- **Multiple Accounts:** For multiple accounts, duplicate the script and credentials, or modify the script to support multi-account.
+- **Notifications:** Only new unread emails received after the script has started will trigger a notification.
+  Existing unread emails at startup are ignored.
+- **Click-to-Open:** Click a notification to open the relevant email thread in Gmail in your browser.
+- **System Tray:** The app runs with a tray icon and can be quit from the tray menu.
 
 ---
 
 ## Troubleshooting
 
-- **No notifications?**  
+- **No notifications?**
   - Check internet connection and Gmail access.
-  - Ensure you have unread emails in your inbox.
+  - Ensure you have new unread emails in your inbox.
   - Check if your antivirus is blocking notifications.
-  - Try running from a terminal to see error messages.
+  - Try running from a terminal (`python gmail_tray_notifier.py`) to see error messages.
 
-- **Problems with authentication?**  
+- **Problems with authentication?**
   - Delete `token.pickle` in the script folder and restart the script to re-authenticate.
+
+- **File not found: `credentials.json`?**
+  - Make sure the file is in the same folder as the script.
+
+- **Notifications not clickable?**
+  - Make sure you installed `win10toast-click` and not just `win10toast`.
 
 ---
 
