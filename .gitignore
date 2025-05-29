@@ -1,2 +1,7 @@
 # Ignore credentials file
 credentials.json
+
+# Ignore session files
+error_log.txt
+token.pickle
+last_checked_time.txt
